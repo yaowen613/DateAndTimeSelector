@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:editable="false" />
+    <EditText
+        android:id="@+id/et2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:editable="false" />
+
+    <Button
+        android:id="@+id/dateBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="日期对话框" />
+
+    <Button
+        android:id="@+id/timeBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="时间对话框" />
+
+    <DigitalClock
+        android:id="@+id/DigitalClock01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@+id/digitalClock"
+        android:textSize="20dip" />
+
+    <AnalogClock
+        android:id="@+id/analogClock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+</LinearLayout>
