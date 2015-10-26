@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
@@ -13,12 +14,16 @@ import android.widget.ImageButton;
 
 import com.yaowen.dateselector.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ * Created by YAOWEN on 2015/10/24.
+ */
 public class DatePicker extends FrameLayout implements View.OnClickListener {
+
     //private String value;
     private String dateFormat;
     private Context context;
@@ -26,6 +31,8 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
     private ImageButton buttonSetDate;
     private Calendar calendar;
     private Dialog finalDialog;
+    private OnTextChangeListener mOnTextChangeListener;
+    private OnDateChangeListener mOnDateChangeListener;
 
 
     public DatePicker(Context context) {
@@ -43,8 +50,14 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
         this.context = context;
         initView(context, attrs);
+    }
 
+    public String getDateFormat() {
+        return dateFormat;
+    }
 
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 
     /**
@@ -59,8 +72,10 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
         buttonSetDate = (ImageButton) view.findViewById(R.id.dateBtn);
         buttonSetDate.setOnClickListener(this);
         if (dateFormat == null) {
-            dateFormat = "yyyy-mm-dd";
+            //如果自定义控件没有设置好dateFormat的值，就设置为 "yyyy-mm-dd"格式
+            dateFormat = "yyyy-mm-dd hh:mm:ss";
         }
+        //editText.addTextChangedListener();
         typeArray.recycle();
     }
 
@@ -71,6 +86,13 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
      **/
     public void setEditText(String value) {
         editText.setText(value);
+    }
+
+    /**
+     * 返回edittext的值
+     **/
+    public String getEditText() {
+        return editText.getText().toString();
     }
 
     /***
@@ -88,7 +110,13 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
      * 格式化传入的值
      *
      * @param value      String类型
-     * @param dateFormat String
+     * @param dateFormat String;
+     *                   <p>yy:10 y/ yyy/ yyyy:2010</p>
+     *                   <p> M:1 MM:01 MMM:Jan MMMM:January MMMMM:J；</p>
+     *                   <p>   dd/d:1--31；</p>
+     *                   <p>  hh:00-23；</p>
+     *                   <p>  mm:00-59；</p>
+     *                   <p>   ss;00-59；</p>
      */
     public void setValue(Date value, String dateFormat) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
@@ -97,14 +125,31 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
     }
 
     /***
-     * 获取传入edittext的值
+     * 将当前edittext的值按照控件的dateFormat转回日期
      *
-     * @return value String类型
+     * @return Date，转化成功时返回Date，否则返回null
      */
-    private String getValue() {
-        String value = null;
-        value = editText.getText().toString();
-        return value;
+    public Date getValue() {
+        String text = getEditText();
+        return getValue(dateFormat);
+    }
+
+    /***
+     * 将当前edittext的值按照指定的格式化字符串转回日期
+     *
+     * @param dateFormat
+     * @return Date，转化成功时返回Date，否则返回null
+     */
+    public Date getValue(String dateFormat) {
+        String text = getEditText();
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);//小写的mm表示的是分钟
+        Date date = null;
+        try {
+            date = sdf.parse(text);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 
@@ -143,5 +188,50 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
             );
         }
         return finalDialog;
+    }
+
+    private class EditTextChangeListener implements android.text.TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (mOnTextChangeListener != null) {
+                mOnTextChangeListener.OnTextChanged(this, (DatePicker) s, getEditText());
+            }
+            if (mOnDateChangeListener != null) {
+                mOnDateChangeListener.OnDateChanged(this, (DatePicker) s, getValue());
+            }
+        }
+    }
+
+    /**
+     * 实现了监听的函数
+     **/
+    public void setOnTextChangeListener(OnTextChangeListener textListener) {
+        mOnTextChangeListener = textListener;
+    }
+
+    public void setDateChangeListener(OnDateChangeListener dateListener) {
+        mOnDateChangeListener = dateListener;
+    }
+
+    /**
+     * 实现了OnCheckedChangeListener的接口
+     **/
+    public interface OnTextChangeListener {
+        public void OnTextChanged(EditTextChangeListener editTextChangeListener, View datePicker, String text);
+    }
+
+    public interface OnDateChangeListener {
+        public void OnDateChanged(EditTextChangeListener editTextChangeListener, View datePicker, Date date);
     }
 }
