@@ -1,34 +1,38 @@
 package com.yaowen.dateselector;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-import java.util.Calendar;
+import com.yaowen.classUtil.DatePicker;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private Button dataButton;
-    private Button timeButton;
-    private EditText editTextDate;
-    private EditText editTextTime;
-    private final static int DATE_DIALOG = 0;
-    private final static int TIME_DIALOG = 1;
-    private Calendar calendar;
-
+//    private ImageButton dataButton;
+//    private Button timeButton;
+//    private EditText editTextDate;
+//    private EditText editTextTime;
+//    private final static int DATE_DIALOG = 0;
+//    private final static int TIME_DIALOG = 1;
+//    private Calendar calendar;
+private DatePicker datePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
+         datePicker = (DatePicker) findViewById(R.id.myDatePicker);
+        //datePicker.setEditText("NIHAO");
+        Date date = new Date();
+       String dateFormat="yyyy-MM-dd hh:mm:ss";
+        //String dateStr = new SimpleDateFormat("yyyy-MMM-dd hh:mm:ss").format(date);
+        Log.d("TAG", "date:" + date);
+        datePicker.setValue(date,dateFormat);
+
+       /* setContentView(R.layout.activity_main);
         editTextDate = (EditText) findViewById(R.id.et);
         editTextTime= (EditText) findViewById(R.id.et2);
-        dataButton = (Button) findViewById(R.id.dateBtn);
+        dataButton = (ImageButton) findViewById(R.id.dateBtn1);
         timeButton = (Button) findViewById(R.id.timeBtn);
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
+    *//**
      * 创建日期及时间选择对话框
-     */
+     *//*
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog = null;
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Log.d("TAG","this is a debug text!");
                                 editTextDate.setText("您选择了：" + year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
                             }
                         },
@@ -86,6 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-        return dialog;
+        return dialog;*/
     }
 }
