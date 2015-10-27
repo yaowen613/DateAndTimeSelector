@@ -10,6 +10,7 @@
         android:id="@+id/myDatePicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        app:dateFormat="yyyy年MM月dd日  hh:mm:ss" />
+        app:value="2015-12-26 15:22:22"
+        app:dateFormat="yyyy-MM-dd HH:mm:ss" />
 
 </LinearLayout>

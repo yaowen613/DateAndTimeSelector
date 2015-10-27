@@ -3,6 +3,7 @@ package com.yaowen.dateselector;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.yaowen.classUtil.DatePicker;
 
@@ -23,12 +24,28 @@ private DatePicker datePicker;
         setContentView(R.layout.main);
          datePicker = (DatePicker) findViewById(R.id.myDatePicker);
         //datePicker.setEditText("NIHAO");
-        Date date = new Date();
-       String dateFormat="yyyy-MM-dd hh:mm:ss";
-        //String dateStr = new SimpleDateFormat("yyyy-MMM-dd hh:mm:ss").format(date);
-        Log.d("TAG", "date:" + date);
-        datePicker.setValue(date,dateFormat);
-
+//        Date date = new Date();
+//
+//       String dateFormat="yyyy-MM-dd hh:mm:ss";
+//        //String dateStr = new SimpleDateFormat("yyyy-MMM-dd hh:mm:ss").format(date);
+//        Log.d("TAG", "date:" + date);
+//        //datePicker.setValue(date);
+//        datePicker.setValue(date, dateFormat);
+//        //Log.d("TAG", datePicker.getValue());
+//        Date date1=datePicker.getValue();
+        Log.d("TAG", datePicker.getInitValue());
+        datePicker.setDateChangeListener(new DatePicker.OnDateChangeListener() {
+            @Override
+            public void OnDateChanged(View datePicker, Date date) {
+                Log.d("TAG", "date:" + date.toString());
+            }
+        });
+        datePicker.setOnTextChangeListener(new DatePicker.OnTextChangeListener() {
+            @Override
+            public void OnTextChanged(View datePicker, String text) {
+                Log.d("TAG", "text:" + text);
+            }
+        });
        /* setContentView(R.layout.activity_main);
         editTextDate = (EditText) findViewById(R.id.et);
         editTextTime= (EditText) findViewById(R.id.et2);
