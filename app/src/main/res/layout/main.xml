@@ -4,13 +4,21 @@
     android:id="@+id/mainGroupLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <com.yaowen.classUtil.DatePicker
         android:id="@+id/myDatePicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         app:value="2015-12-26 15:22:22"
-        app:dateFormat="yyyy-MM-dd HH:mm:ss" />
+        app:dialogType="selectDialog"
 
+        app:dateFormat="yyyy-MM-dd HH:mm:ss" />
+    <com.yaowen.classUtil.DatePicker
+        android:id="@+id/myDatePicker2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:value="2015-12-26 15:22:22"
+        app:dialogType="canEditDialog"
+        app:dateFormat="yyyy-MM-dd HH:mm:ss" />
 </LinearLayout>
