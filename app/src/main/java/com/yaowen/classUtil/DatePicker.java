@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.text.Editable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -91,7 +92,7 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
         dateFormat = typeArray.getString(R.styleable.MyDatePicker_dateFormat);
         initValue = typeArray.getString(R.styleable.MyDatePicker_value);
         dialogType = typeArray.getInteger(R.styleable.MyDatePicker_dialogType, 1);
-        calendarHeight =typeArray.getDimension(R.styleable.MyDatePicker_calendarHeight,600);//默认200dp
+        calendarHeight =typeArray.getDimension(R.styleable.MyDatePicker_calendarHeight, dip2px(context,300));//默认300dp,使得6.0的机子可以显示完全日期
         buttonSetDate.setOnClickListener(this);
         if (dateFormat == null) {
             //如果自定义控件没有设置好dateFormat的值，就设置为 "yyyy-mm-dd"格式
@@ -204,6 +205,7 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
         SelectPickerDialogEvent event = new SelectPickerDialogEvent();
         if (dialogType == SELECT) {
             if (dialog == null) {
+                Log.d("tag", String.valueOf(calendarHeight));
                 LinearLayout view1=new LinearLayout(context);
                 CalendarView view = new CalendarView(context);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) calendarHeight);
@@ -247,7 +249,7 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
      * CalendarView的选择改变监听事件
      **/
     public class SelectPickerDialogEvent implements DialogInterface.OnClickListener, CalendarView.OnDateChangeListener {
-        private Date time;
+        private Date time=new Date();
 
         @Override
         public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -287,6 +289,13 @@ public class DatePicker extends FrameLayout implements View.OnClickListener {
         if (mOnDateChangeListener != null) {
             mOnDateChangeListener.OnDateChanged(this, getValue(dateFormat));
         }
+    }
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    private   float dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (dpValue * scale + 0.5f);
     }
 
     /**
