@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">DateSelector</string>
+    <declare-styleable name="MyDatePicker">
+        <attr name="dateFormat" format="string"/>
+        <attr name="value" format="string"/>
+        <attr name="calendarHeight" format="dimension"/>
+        <attr name="dialogType" format="integer">
+            <enum name="canEditDialog" value="1"/>
+            <enum name="selectDialog" value="2"/>
+        </attr>
+    </declare-styleable>
 </resources>
